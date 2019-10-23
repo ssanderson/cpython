@@ -1342,8 +1342,18 @@ static PyMethodDef lru_cache_methods[] = {
     {NULL}
 };
 
+static PyObject *
+lru_cache_get_typed(lru_cache_object *self, void *context)
+{
+    if (self->typed) {
+        Py_RETURN_TRUE;
+    }
+    Py_RETURN_FALSE;
+}
+
 static PyGetSetDef lru_cache_getsetlist[] = {
     {"__dict__", PyObject_GenericGetDict, PyObject_GenericSetDict},
+    {"typed", (getter)lru_cache_get_typed, NULL, NULL, NULL},
     {NULL}
 };
 

@@ -1623,6 +1623,26 @@ class TestLRU:
         self.assertEqual(b.f.cache_info(), X.f.cache_info())
         self.assertEqual(c.f.cache_info(), X.f.cache_info())
 
+    def test_lru_typed_attribute(self):
+
+        @self.module.lru_cache(typed=True)
+        def f_typed():
+            pass
+
+        self.assertTrue(f_typed.typed)
+
+        @self.module.lru_cache(typed=False)
+        def f_untyped():
+            pass
+
+        self.assertFalse(f_untyped.typed)
+
+        @self.module.lru_cache()
+        def f_default():
+            pass
+
+        self.assertFalse(f_default.typed)
+
     def test_pickle(self):
         cls = self.__class__
         for f in cls.cached_func[0], cls.cached_meth, cls.cached_staticmeth:
